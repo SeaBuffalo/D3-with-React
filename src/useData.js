@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { csv } from 'd3';
 
-const csvUrl = 'https://gist.githubusercontent.com/bdos201/08f118a86d68e37b23564e392170e672/raw/410d621b5f4d91496064f3f458e282a153a55357/wpp-2019-newborns';
+const csvUrl = 'https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/iris.csv';
 
 export const useData = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const row = d => {
-      d.Population = (+d.Newborns) * 1000;
+      d.sepal_length = +d.sepal_length;
+      d.sepal_width = +d.sepal_width;
+      d.petal_length = +d.petal_length;
+      d.petal_width = +d.petal_width;
       return d;
     }
-    csv(csvUrl, row).then(data => {
-      setData(data.slice(0, 10));
-    })
+    csv(csvUrl, row).then(setData)
   }, [])
   
   return data;

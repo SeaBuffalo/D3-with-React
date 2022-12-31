@@ -1,4 +1,3 @@
-# Stylized-Bar-Chart
-Stylized bar chart using D3 and React
-This is a list of newborns in each country sorted greatest to least in the year 2019. 
-This data was pulled from [World Population Prospects](https://population.un.org/wpp/Download/Standard/Population/).
+# Stylized-Scatter-Plot
+Stylized scatter plot using D3 and React showing correlation of iris flower qualities.
+This data was pulled from the [Iris Dataset](https://archive.ics.uci.edu/ml/datasets/Iris).
