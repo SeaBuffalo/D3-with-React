@@ -13,14 +13,13 @@ const yAxisLabelOffset = 50;
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right; 
 
-const xValue = d => d.sepal_length;
-const xAxisLabel = 'Sepal Length';
+const xValue = d => d.timestamp;
+const xAxisLabel = 'Time';
 
-const yValue = d => d.sepal_width;
-const yAxisLabel = 'Sepal Width';
+const yValue = d => d.temperature;
+const yAxisLabel = 'Temperature';
 
-const siFormat = d3.format(".2s");
-const xAxisTickFormat = tickValue => siFormat(tickValue).replace('.0', '');
+const xAxisTickFormat = d3.timeFormat("%a");
 
 function App() {
   const data  = useData();
@@ -29,14 +28,15 @@ function App() {
     return <pre>Loading...</pre>
   }
 
-  const xScale = d3.scaleLinear()
+  const xScale = d3.scaleTime()
   .domain(d3.extent(data, xValue))
   .range([0, innerWidth])
   .nice();
 
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yValue))
-    .range([0, innerHeight]);
+    .range([innerHeight, 0])
+    .nice();
 
   return (
     <svg width={width} height={height}>
@@ -75,7 +75,7 @@ function App() {
           xValue={xValue} 
           yValue={yValue}
           tooltipFormat={xAxisTickFormat}
-          circleRadius={7}
+          circleRadius={4}
         />
         
       </g>
