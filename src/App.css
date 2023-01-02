@@ -4,6 +4,33 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.menus-container {
+  margin-top: 2rem;
+  margin-bottom: -2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.Dropdown-root {
+  width: 300px;
+  display: inline-block;
+}
+
+.drop .Dropdown-menu {
+  max-height: 400px;
+}
+
+.dropdown-label, .axis-label {
+  font-size: 2em;
+  fill: #635F5d;
+  color: #635F5d;
+}
+
+.dropdown-label {
+  margin: 0 10px 0 30px;
+}
+
 .tick line {
   stroke: #C0C0BB;
 }
@@ -14,9 +41,4 @@ body {
 
 .mark {
   fill: #137B80;
-}
-
-.axis-label {
-  font-size: 2em;
-  fill: #635F5D;
 }
