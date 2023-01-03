@@ -1,5 +1,6 @@
 import './App.css';
-import { useData } from './useData';
+import { useWorldAtlas } from './useWorldAtlas';
+import { useCities } from './useCities';
 import { Marks } from './Marks';
 
 const width = 1000;
@@ -7,9 +8,10 @@ const height = 550;
 
 
 function App() {
-  const data  = useData();
-  
-  if (!data) {
+  const worldAtlas  = useWorldAtlas();
+  const cities = useCities();
+
+  if (!worldAtlas || !cities) {
     return <pre>Loading...</pre>
   }
 
@@ -17,7 +19,7 @@ function App() {
     <svg 
     width={width} 
     height={height} >
-        <Marks data={data} />
+        <Marks worldAtlas={worldAtlas} cities={cities} />
     </svg>
     )
 }
