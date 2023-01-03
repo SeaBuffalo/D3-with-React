@@ -1,30 +1,30 @@
-import { line, curveNatural } from 'd3';
+// import { line, curveNatural } from 'd3';
 
 export const Marks = ({ 
-  data, 
+  binnedData, 
   xScale, 
   yScale, 
-  xValue, 
-  yValue, 
-  tooltipFormat, 
+  tooltipFormat,
+  innerHeight, 
   circleRadius = 10 }) => (
   <g className="marks" >
-    <path 
+    {/* <path 
       fill='none'
       stroke='black'
       d={line()
       .x(d => xScale(xValue(d)))
-      .y(d => yScale(yValue(d))).curve(curveNatural)(data)} />
-    {/* {data.map((d, i) => 
+      .y(d => yScale(yValue(d))).curve(curveNatural)(data)} /> */}
+    {binnedData.map((d, i) => 
       (
-        <circle 
-          cx={xScale(xValue(d))} 
-          cy={yScale(yValue(d))} 
-          r={circleRadius}
+        <rect 
+          x={xScale(d.x0)} 
+          y={yScale(d.y)} 
+          width={xScale(d.x1) - xScale(d.x0)}
+          height={innerHeight - yScale(d.y)}
           key={`circle: ${i}`}
         >
-          <title>{tooltipFormat(xValue(d))}</title>
-        </circle>
-    ))} */}
+          <title>{tooltipFormat(d.y)}</title>
+        </rect>
+    ))}
   </g>
 );

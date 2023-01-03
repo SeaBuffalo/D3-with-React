@@ -8,18 +8,20 @@ import { Marks } from './Marks';
 const width = Math.max(600, window.innerWidth - 20)
 const height = window.innerHeight - 20;
 const margin = { top: 70, right: 70, bottom: 100, left: 150 };
-const xAxisLabelOffset = 50;
-const yAxisLabelOffset = 50;
+const xAxisLabelOffset = 68;
+const yAxisLabelOffset = 60;
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right; 
 
-const xValue = d => d.timestamp;
+const xValue = d => d["Reported Date"];
 const xAxisLabel = 'Time';
 
-const yValue = d => d.temperature;
-const yAxisLabel = 'Temperature';
+const yValue = d => d["Total Dead and Missing"];
+const yAxisLabel = "Total Dead and Missing";
 
-const xAxisTickFormat = d3.timeFormat("%a");
+const xAxisTickFormat = d3.timeFormat("%m/%d/%Y");
+// d["Total Dead and Missing"] = +d["Total Dead and Missing"];
+// d["Reported Date"] = new Date(d["Reported Date"]);
 
 function App() {
   const data  = useData();
@@ -33,8 +35,20 @@ function App() {
   .range([0, innerWidth])
   .nice();
 
-  const yScale = d3.scaleLinear()
-    .domain(d3.extent(data, yValue))
+    const [start, stop] = xScale.domain();
+
+    const binnedData = d3.bin()
+    .value(xValue)
+    .domain(xScale.domain())
+    .thresholds(d3.timeMonths(start, stop))(data)
+    .map(array =>({
+      y: d3.sum(array, yValue),
+      x0: array.x0,
+      x1: array.x1
+    }));
+
+    const yScale = d3.scaleLinear()
+    .domain([0, d3.max(binnedData, d => d.y)])
     .range([innerHeight, 0])
     .nice();
 
@@ -46,7 +60,7 @@ function App() {
           xScale={xScale} 
           innerHeight={innerHeight} 
           tickFormat={xAxisTickFormat}
-          tickOffset={5}
+          tickOffset={15}
         />
 
         <text 
@@ -69,13 +83,12 @@ function App() {
         >{xAxisLabel}</text>
 
         <Marks 
-          data={data} 
+          binnedData={binnedData} 
+          innerHeight={innerHeight}
           xScale={xScale} 
           yScale={yScale} 
-          xValue={xValue} 
-          yValue={yValue}
           tooltipFormat={xAxisTickFormat}
-          circleRadius={4}
+          circleRadius={2}
         />
         
       </g>

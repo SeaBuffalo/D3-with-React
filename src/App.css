@@ -12,7 +12,7 @@ body {
   fill: #635F5D;
 }
 
-.marks circle {
+.marks rect {
   fill: #137B80;
 }
 
